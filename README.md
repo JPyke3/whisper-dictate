@@ -228,6 +228,33 @@ GPL-3.0 - See [LICENSE](LICENSE) for details.
 
 ## Acknowledgments
 
-- [whisper.cpp](https://github.com/ggerganov/whisper.cpp) by Georgi Gerganov
-- [OpenAI Whisper](https://github.com/openai/whisper) - The original model
-- Created with [Claude Code](https://claude.ai/code) by Anthropic
+### Speech Recognition
+- [whisper.cpp](https://github.com/ggerganov/whisper.cpp) by Georgi Gerganov - High-performance C/C++ inference
+- [OpenAI Whisper](https://github.com/openai/whisper) - The original speech recognition model
+
+### Python Libraries
+- [PyQt6](https://www.riverbankcomputing.com/software/pyqt/) by Riverbank Computing - Qt bindings for Python
+- [PyAudio](https://people.csail.mit.edu/hubert/pyaudio/) - Python bindings for PortAudio
+- [PortAudio](https://github.com/PortAudio/portaudio) - Cross-platform audio I/O library
+- [NumPy](https://github.com/numpy/numpy) - Fundamental package for scientific computing
+- [tomli](https://github.com/hukkin/tomli) - TOML parser for Python
+- [tomli-w](https://github.com/hukkin/tomli-w) - TOML writer for Python
+
+### Development Tools
+- [pytest](https://github.com/pytest-dev/pytest) - Testing framework
+- [pytest-qt](https://github.com/pytest-dev/pytest-qt) - pytest plugin for Qt application testing
+- [pytest-cov](https://github.com/pytest-dev/pytest-cov) - Coverage plugin for pytest
+- [Black](https://github.com/psf/black) - The uncompromising code formatter
+- [isort](https://github.com/PyCQA/isort) - Python import sorter
+- [mypy](https://github.com/python/mypy) - Static type checker for Python
+- [pre-commit](https://github.com/pre-commit/pre-commit) - Git hooks framework
+- [setuptools](https://github.com/pypa/setuptools) - Python build system
+
+### System Utilities
+- [wl-clipboard](https://github.com/bugaevc/wl-clipboard) - Wayland clipboard utilities
+- [xclip](https://github.com/astrand/xclip) - X11 clipboard interface
+- [ydotool](https://github.com/ReimuNotMoe/ydotool) - Generic Linux automation tool
+- [xdotool](https://github.com/jordansissel/xdotool) - X11 automation tool
+
+### Created With
+- [Claude Code](https://claude.ai/code) by Anthropic
