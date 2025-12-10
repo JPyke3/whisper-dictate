@@ -58,7 +58,26 @@ The visualizer shows animated dots that respond to your voice while recording:
 
 ## Installation
 
-### Using pipx (Recommended)
+### From GitHub Releases (Quickest)
+
+Download a pre-built binary from [Releases](https://github.com/JPyke3/whisper-dictate/releases):
+
+```bash
+# Download the latest binary
+wget https://github.com/JPyke3/whisper-dictate/releases/latest/download/whisper-dictate-linux-x86_64
+chmod +x whisper-dictate-linux-x86_64
+sudo mv whisper-dictate-linux-x86_64 /usr/local/bin/whisper-dictate
+```
+
+Or extract from the tarball:
+```bash
+tar -xzf whisper-dictate-v*-linux-x86_64.tar.gz
+sudo mv whisper-dictate /usr/local/bin/
+```
+
+> **Note:** You still need to install [whisper.cpp](#system-dependencies) separately.
+
+### Using pipx (Recommended for Python users)
 
 [pipx](https://pipx.pypa.io/) installs the application in an isolated environment while making it globally available. This is the recommended method for most users.
 
