@@ -1,0 +1,125 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            portaudio19-dev \
+            libasound2-dev \
+            libxcb-cursor0 \
+            libxkbcommon-x11-0 \
+            libxcb-icccm4 \
+            libxcb-image0 \
+            libxcb-keysyms1 \
+            libxcb-randr0 \
+            libxcb-render-util0 \
+            libxcb-xinerama0 \
+            libxcb-xfixes0 \
+            libegl1
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyinstaller
+          pip install -e .
+
+      - name: Build standalone binary
+        run: |
+          pyinstaller \
+            --name whisper-dictate \
+            --onefile \
+            --console \
+            --hidden-import numpy \
+            --hidden-import pyaudio \
+            --hidden-import tomli \
+            --hidden-import tomli_w \
+            --collect-all PyQt6 \
+            whisper_dictate/cli.py
+
+      - name: Test binary runs
+        run: |
+          ./dist/whisper-dictate --help
+
+      - name: Create release archive
+        env:
+          VERSION: ${{ github.ref_name }}
+        run: |
+          cd dist
+          tar -czvf "whisper-dictate-${VERSION}-linux-x86_64.tar.gz" whisper-dictate
+          mv whisper-dictate "whisper-dictate-${VERSION}-linux-x86_64"
+
+      - name: Upload to GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            dist/whisper-dictate-${{ github.ref_name }}-linux-x86_64.tar.gz
+            dist/whisper-dictate-${{ github.ref_name }}-linux-x86_64
+          generate_release_notes: true
+          body: |
+            ## Installation
+
+            ### Quick Install
+
+            ```bash
+            # Download the binary
+            wget https://github.com/JPyke3/whisper-dictate/releases/download/${{ github.ref_name }}/whisper-dictate-${{ github.ref_name }}-linux-x86_64
+            chmod +x whisper-dictate-${{ github.ref_name }}-linux-x86_64
+            sudo mv whisper-dictate-${{ github.ref_name }}-linux-x86_64 /usr/local/bin/whisper-dictate
+            ```
+
+            Or extract from the tarball:
+            ```bash
+            tar -xzf whisper-dictate-${{ github.ref_name }}-linux-x86_64.tar.gz
+            sudo mv whisper-dictate /usr/local/bin/
+            ```
+
+            ### Required: Install whisper.cpp
+
+            This application requires whisper.cpp to be installed separately:
+
+            ```bash
+            # Arch Linux (CPU)
+            paru -S whisper.cpp
+
+            # Arch Linux (CUDA GPU acceleration)
+            paru -S whisper.cpp-cuda
+            ```
+
+            For other distributions, see the [whisper.cpp installation guide](https://github.com/ggerganov/whisper.cpp#building).
+
+            ### Download a Model
+
+            After installation, download a speech recognition model:
+
+            ```bash
+            whisper-dictate --download-model small.en
+            ```
+
+            ### Set Up a Keyboard Shortcut
+
+            Create a keyboard shortcut in your desktop environment to run `whisper-dictate`.
+
+            ---
+
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
